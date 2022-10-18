@@ -1,15 +1,19 @@
 const search_input = document.querySelector("#input-field");
 const place = document.querySelector("#place");
-const description = document.querySelector("#description");
+const desc = document.querySelector("#description");
 const deg = document.querySelector("#deg");
-const feels_like = document.querySelector("#feels_like");
-const humidity = document.querySelector("#humidity");
-const icon = document.querySelector("#icon");
+const feelslike = document.querySelector("#feels_like");
+const hum = document.querySelector("#humidity");
+const weathericon = document.querySelector("#icon");
 const API_KEY = '0b5bb2ea8b4d2d77fff4465b68f945f4'
 
 function datatrans() {
     localStorage.setItem("Location",search_input.value);
     return false;
+}
+
+function redirect(){
+    location.href = "./weather-details.html"
 }
 
 function getWeatherData() {
@@ -30,18 +34,18 @@ function showWeatherData(data) {
     let {description, icon} = data.weather[0];
     console.log(description,icon);
     console.log(humidity,temp,feels_like);
-    localStorage.setItem('icon', icon);
-    localStorage.setItem('description', description);
-    localStorage.setItem('humidity',humidity);
-    localStorage.setItem('temp',temp);
-    localStorage.setItem('feels_like',feels_like);
+    // localStorage.setItem('icon', icon);
+    // localStorage.setItem('description', description);
+    // localStorage.setItem('humidity',humidity);
+    // localStorage.setItem('temp',temp);
+    // localStorage.setItem('feels_like',feels_like);
+    
+    feelslike.innerHTML = feels_like + " &deg;c";
+    place.innerHTML = localStorage.getItem("Location");
+    deg.innerHTML = temp + " &deg;c";
+    hum.innerHTML = humidity + "%";
+    desc.innerHTML = description;
+    weathericon.src = `http://openweathermap.org/img/wn/${icon}@2x.png`
 }
 
 getWeatherData();
-
-place.innerHTML = localStorage.getItem("Location");
-deg.innerHTML = localStorage.getItem("temp") + " &deg;c";
-feels_like.innerHTML = localStorage.getItem("feels_like") + " &deg;c";
-humidity.innerHTML = localStorage.getItem("humidity") + "%";
-description.innerHTML = localStorage.getItem("description");
-icon.src = `http://openweathermap.org/img/wn/${localStorage.getItem("icon")}@2x.png`
