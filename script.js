@@ -17,31 +17,20 @@ function redirect(){
 }
 
 function getWeatherData() {
-    navigator.geolocation.getCurrentPosition((success) => {
-        let {latitude,longitude} = success.coords;
-
-        console.log(success);
-
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${localStorage.getItem("Location")}&units=metric&appid=0b5bb2ea8b4d2d77fff4465b68f945f4`).then(res => res.json()).then(data => {
-            console.log(data);
-            showWeatherData(data);
-        });
-    })
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${localStorage.getItem("Location")}&units=metric&appid=0b5bb2ea8b4d2d77fff4465b68f945f4`).then(res => res.json()).then(data => {
+        console.log(data);
+        showWeatherData(data);
+    });
 }
 
 function showWeatherData(data) {
     let {humidity,temp,feels_like} = data.main;
     let {description, icon} = data.weather[0];
+    let name = data.name;
     console.log(description,icon);
     console.log(humidity,temp,feels_like);
-    // localStorage.setItem('icon', icon);
-    // localStorage.setItem('description', description);
-    // localStorage.setItem('humidity',humidity);
-    // localStorage.setItem('temp',temp);
-    // localStorage.setItem('feels_like',feels_like);
-    
     feelslike.innerHTML = feels_like + " &deg;c";
-    place.innerHTML = localStorage.getItem("Location");
+    place.innerHTML = name;
     deg.innerHTML = temp + " &deg;c";
     hum.innerHTML = humidity + "%";
     desc.innerHTML = description;
